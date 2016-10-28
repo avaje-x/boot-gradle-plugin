@@ -1,17 +1,15 @@
 group 'org.avaje.incubation'
-version '0.1.2'
+version '0.1.3'
 
-buildscript {
-    repositories {
-        mavenLocal()
-    }
-    dependencies {
-        classpath 'org.avaje.incubating:nexus-gradle-plugin:0.1'
-    }
+ext {
+    projectName = 'Runnable war/jar plugin using Spring boot loader'
+    projectDescription = 'Gradle plugin that provides Runnable war/jar plugin using Spring boot loader'
+    projectUrl = 'https://github.com/avaje-x/repackage-gradle-plugin'
+    scmDeveloperConnection = 'scm:git://github.com/avaje-x/repackage-gradle-plugin'
 }
 
 apply plugin: 'groovy'
-apply plugin: 'org.avaje.nexus'
+apply from: "${gradle_common}/oss.gradle"
 
 repositories {
     mavenCentral()
@@ -23,29 +21,3 @@ dependencies {
     compile localGroovy()
 }
 
-modifyPom {
-    project {
-        name 'Runnable war/jar plugin using Spring boot loader'
-        description 'Gradle plugin that provides Runnable war/jar plugin using Spring boot loader'
-        url 'https://github.com/avaje-x/repackage-gradle-plugin'
-
-        scm {
-            url 'https://github.com/avaje-x/repackage-gradle-plugin'
-            developerConnection 'scm:git://github.com/avaje-x/repackage-gradle-plugin'
-        }
-
-        licenses {
-            license {
-                name 'The Apache Software License, Version 2.0'
-                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-            }
-        }
-
-        developers {
-            developer {
-                id 'rbygrave'
-                name 'Robin Bygrave'
-            }
-        }
-    }
-}
