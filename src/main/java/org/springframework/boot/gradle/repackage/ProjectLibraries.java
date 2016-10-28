@@ -60,8 +60,7 @@ class ProjectLibraries implements Libraries {
 	 * @param extension the extension
 	 * @param excludeDevTools whether Spring Boot Devtools should be excluded
 	 */
-	ProjectLibraries(Project project, SpringBootPluginExtension extension,
-			boolean excludeDevTools) {
+	ProjectLibraries(Project project, SpringBootPluginExtension extension, boolean excludeDevTools) {
 		this.project = project;
 		this.extension = extension;
 		this.excludeDevtools = excludeDevTools;
@@ -81,15 +80,13 @@ class ProjectLibraries implements Libraries {
 
 	@Override
 	public void doWithLibraries(LibraryCallback callback) throws IOException {
-		Set<GradleLibrary> custom = getLibraries(this.customConfigurationName,
-				LibraryScope.CUSTOM);
+		Set<GradleLibrary> custom = getLibraries(this.customConfigurationName, LibraryScope.CUSTOM);
 		if (custom != null) {
 			libraries(custom, callback);
 		}
 		else {
 			Set<GradleLibrary> runtime = getLibraries("runtime", LibraryScope.RUNTIME);
-			Set<GradleLibrary> provided = getLibraries(this.providedConfigurationName,
-					LibraryScope.PROVIDED);
+			Set<GradleLibrary> provided = getLibraries(this.providedConfigurationName, LibraryScope.PROVIDED);
 			if (provided != null) {
 				runtime = minus(runtime, provided);
 			}
@@ -98,44 +95,38 @@ class ProjectLibraries implements Libraries {
 		}
 	}
 
-	private Set<GradleLibrary> getLibraries(String configurationName,
-			LibraryScope scope) {
+	private Set<GradleLibrary> getLibraries(String configurationName, LibraryScope scope) {
 		Configuration configuration = (configurationName == null ? null
 				: this.project.getConfigurations().findByName(configurationName));
 		if (configuration == null) {
 			return null;
 		}
 		Set<GradleLibrary> libraries = new LinkedHashSet<GradleLibrary>();
-		for (ResolvedArtifact artifact : configuration.getResolvedConfiguration()
-				.getResolvedArtifacts()) {
+		for (ResolvedArtifact artifact : configuration.getResolvedConfiguration().getResolvedArtifacts()) {
 			libraries.add(new ResolvedArtifactLibrary(artifact, scope));
 		}
 		libraries.addAll(getLibrariesForFileDependencies(configuration, scope));
 		return libraries;
 	}
 
-	private Set<GradleLibrary> getLibrariesForFileDependencies(
-			Configuration configuration, LibraryScope scope) {
+	private Set<GradleLibrary> getLibrariesForFileDependencies(Configuration configuration, LibraryScope scope) {
 		Set<GradleLibrary> libraries = new LinkedHashSet<GradleLibrary>();
 		for (Dependency dependency : configuration.getIncoming().getDependencies()) {
 			if (dependency instanceof FileCollectionDependency) {
 				FileCollectionDependency fileDependency = (FileCollectionDependency) dependency;
 				for (File file : fileDependency.resolve()) {
-					libraries.add(
-							new GradleLibrary(fileDependency.getGroup(), file, scope));
+					libraries.add(new GradleLibrary(fileDependency.getGroup(), file, scope));
 				}
 			}
 			else if (dependency instanceof ProjectDependency) {
 				ProjectDependency projectDependency = (ProjectDependency) dependency;
-				libraries.addAll(getLibrariesForFileDependencies(
-						projectDependency.getProjectConfiguration(), scope));
+				libraries.addAll(getLibrariesForFileDependencies(projectDependency.getProjectConfiguration(), scope));
 			}
 		}
 		return libraries;
 	}
 
-	private Set<GradleLibrary> minus(Set<GradleLibrary> source,
-			Set<GradleLibrary> toRemove) {
+	private Set<GradleLibrary> minus(Set<GradleLibrary> source, Set<GradleLibrary> toRemove) {
 		if (source == null || toRemove == null) {
 			return source;
 		}
@@ -152,8 +143,7 @@ class ProjectLibraries implements Libraries {
 		return result;
 	}
 
-	private void libraries(Set<GradleLibrary> libraries, LibraryCallback callback)
-			throws IOException {
+	private void libraries(Set<GradleLibrary> libraries, LibraryCallback callback) throws IOException {
 		if (libraries != null) {
 			Set<String> duplicates = getDuplicates(libraries);
 			for (GradleLibrary library : libraries) {

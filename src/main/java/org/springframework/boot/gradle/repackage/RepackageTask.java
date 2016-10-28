@@ -222,8 +222,8 @@ public class RepackageTask extends DefaultTask {
 			}
 			repackager.setBackupSource(this.extension.isBackupSource());
 			try {
-				LaunchScript launchScript = getLaunchScript();
-				repackager.repackage(file, this.libraries, launchScript);
+				//LaunchScript launchScript = getLaunchScript();
+				repackager.repackage(file, this.libraries, null);
 			}
 			catch (IOException ex) {
 				throw new IllegalStateException(ex.getMessage(), ex);
@@ -275,30 +275,30 @@ public class RepackageTask extends DefaultTask {
 			return null;
 		}
 
-		private LaunchScript getLaunchScript() throws IOException {
-			if (isExecutable() || getEmbeddedLaunchScript() != null) {
-				return new DefaultLaunchScript(getEmbeddedLaunchScript(),
-						getEmbeddedLaunchScriptProperties());
-			}
-			return null;
-		}
+//		private LaunchScript getLaunchScript() throws IOException {
+//			if (isExecutable() || getEmbeddedLaunchScript() != null) {
+//				return new DefaultLaunchScript(getEmbeddedLaunchScript(),
+//						getEmbeddedLaunchScriptProperties());
+//			}
+//			return null;
+//		}
 
-		private boolean isExecutable() {
-			return RepackageTask.this.executable != null ? RepackageTask.this.executable
-					: this.extension.isExecutable();
-		}
-
-		private File getEmbeddedLaunchScript() {
-			return RepackageTask.this.embeddedLaunchScript != null
-					? RepackageTask.this.embeddedLaunchScript
-					: this.extension.getEmbeddedLaunchScript();
-		}
-
-		private Map<String, String> getEmbeddedLaunchScriptProperties() {
-			return RepackageTask.this.embeddedLaunchScriptProperties != null
-					? RepackageTask.this.embeddedLaunchScriptProperties
-					: this.extension.getEmbeddedLaunchScriptProperties();
-		}
+//		private boolean isExecutable() {
+//			return RepackageTask.this.executable != null ? RepackageTask.this.executable
+//					: this.extension.isExecutable();
+//		}
+//
+//		private File getEmbeddedLaunchScript() {
+//			return RepackageTask.this.embeddedLaunchScript != null
+//					? RepackageTask.this.embeddedLaunchScript
+//					: this.extension.getEmbeddedLaunchScript();
+//		}
+//
+//		private Map<String, String> getEmbeddedLaunchScriptProperties() {
+//			return RepackageTask.this.embeddedLaunchScriptProperties != null
+//					? RepackageTask.this.embeddedLaunchScriptProperties
+//					: this.extension.getEmbeddedLaunchScriptProperties();
+//		}
 
 	}
 
