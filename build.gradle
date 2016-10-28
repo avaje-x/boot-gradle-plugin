@@ -1,9 +1,17 @@
 group 'org.avaje.incubation'
-version '0.1.1'
+version '0.1.2'
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'org.avaje.incubating:nexus-gradle-plugin:0.1'
+    }
+}
 
 apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: 'org.avaje.nexus'
 
 repositories {
     mavenCentral()
@@ -15,59 +23,28 @@ dependencies {
     compile localGroovy()
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-}
+modifyPom {
+    project {
+        name 'Runnable war/jar plugin using Spring boot loader'
+        description 'Gradle plugin that provides Runnable war/jar plugin using Spring boot loader'
+        url 'https://github.com/avaje-x/repackage-gradle-plugin'
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
+        scm {
+            url 'https://github.com/avaje-x/repackage-gradle-plugin'
+            developerConnection 'scm:git://github.com/avaje-x/repackage-gradle-plugin'
+        }
 
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
-}
-
-signing {
-    sign configurations.archives
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
             }
+        }
 
-            pom.project {
-                name 'boot-gradle-plugin'
-                packaging 'jar'
-                description 'Gradle plugin for runnable jar/war using Spring boot loader'
-                url 'http://github.com/ebean-orm/ebean-gradle-plugin'
-
-                scm {
-                    developerConnection 'scm:git:https://github.com/ebean-orm/ebean-gradle-plugin.git'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'rbygrave'
-                        name 'Robin Bygrave'
-                    }
-                }
+        developers {
+            developer {
+                id 'rbygrave'
+                name 'Robin Bygrave'
             }
         }
     }

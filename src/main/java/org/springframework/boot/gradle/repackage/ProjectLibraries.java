@@ -30,7 +30,7 @@ import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.ProjectDependency;
 import org.gradle.api.artifacts.ResolvedArtifact;
 
-import org.springframework.boot.gradle.SpringBootPluginExtension;
+import org.springframework.boot.gradle.BootPluginExtension;
 import org.springframework.boot.loader.tools.Libraries;
 import org.springframework.boot.loader.tools.Library;
 import org.springframework.boot.loader.tools.LibraryCallback;
@@ -46,7 +46,7 @@ class ProjectLibraries implements Libraries {
 
 	private final Project project;
 
-	private final SpringBootPluginExtension extension;
+	private final BootPluginExtension extension;
 
 	private final boolean excludeDevtools;
 
@@ -60,7 +60,7 @@ class ProjectLibraries implements Libraries {
 	 * @param extension the extension
 	 * @param excludeDevTools whether Spring Boot Devtools should be excluded
 	 */
-	ProjectLibraries(Project project, SpringBootPluginExtension extension, boolean excludeDevTools) {
+	ProjectLibraries(Project project, BootPluginExtension extension, boolean excludeDevTools) {
 		this.project = project;
 		this.extension = extension;
 		this.excludeDevtools = excludeDevTools;

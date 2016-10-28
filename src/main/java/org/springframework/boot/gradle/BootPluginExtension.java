@@ -46,7 +46,7 @@ import org.springframework.boot.loader.tools.Layouts;
  * @author Stephane Nicoll
  * @author Andy Wilkinson
  */
-public class SpringBootPluginExtension {
+public class BootPluginExtension {
 
   private final Project project;
 
@@ -136,7 +136,7 @@ public class SpringBootPluginExtension {
 //   */
 //  Map<String, String> embeddedLaunchScriptProperties;
 
-  public SpringBootPluginExtension(Project project) {
+  public BootPluginExtension(Project project) {
     this.project = project;
   }
 

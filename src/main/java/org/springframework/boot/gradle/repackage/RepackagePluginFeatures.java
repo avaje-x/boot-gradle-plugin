@@ -31,7 +31,7 @@ import org.gradle.api.tasks.TaskDependency;
 import org.gradle.api.tasks.bundling.Jar;
 
 import org.springframework.boot.gradle.PluginFeatures;
-import org.springframework.boot.gradle.SpringBootPluginExtension;
+import org.springframework.boot.gradle.BootPluginExtension;
 import org.springframework.boot.loader.tools.Library;
 import org.springframework.boot.loader.tools.LibraryCallback;
 import org.springframework.util.StringUtils;
@@ -121,8 +121,8 @@ public class RepackagePluginFeatures implements PluginFeatures {
 			if ("".equals(jarTask.getClassifier())) {
 				String classifier = this.task.getClassifier();
 				if (classifier == null) {
-					SpringBootPluginExtension extension = this.project.getExtensions()
-							.getByType(SpringBootPluginExtension.class);
+					BootPluginExtension extension = this.project.getExtensions()
+							.getByType(BootPluginExtension.class);
 					classifier = extension.getClassifier();
 					this.task.setClassifier(classifier);
 				}

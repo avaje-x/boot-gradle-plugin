@@ -31,9 +31,7 @@ import org.gradle.api.plugins.ExtraPropertiesExtension;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.bundling.Jar;
 
-import org.springframework.boot.gradle.SpringBootPluginExtension;
-import org.springframework.boot.loader.tools.DefaultLaunchScript;
-import org.springframework.boot.loader.tools.LaunchScript;
+import org.springframework.boot.gradle.BootPluginExtension;
 import org.springframework.boot.loader.tools.Repackager;
 import org.springframework.util.FileCopyUtils;
 
@@ -134,16 +132,16 @@ public class RepackageTask extends DefaultTask {
 	@TaskAction
 	public void repackage() {
 		Project project = getProject();
-		SpringBootPluginExtension extension = project.getExtensions()
-				.getByType(SpringBootPluginExtension.class);
+		BootPluginExtension extension = project.getExtensions()
+				.getByType(BootPluginExtension.class);
 		ProjectLibraries libraries = getLibraries();
 		project.getTasks().withType(Jar.class, new RepackageAction(extension, libraries));
 	}
 
 	public ProjectLibraries getLibraries() {
 		Project project = getProject();
-		SpringBootPluginExtension extension = project.getExtensions()
-				.getByType(SpringBootPluginExtension.class);
+		BootPluginExtension extension = project.getExtensions()
+				.getByType(BootPluginExtension.class);
 		ProjectLibraries libraries = new ProjectLibraries(project, extension,
 				(this.excludeDevtools != null && this.excludeDevtools)
 						|| extension.isExcludeDevtools());
@@ -164,11 +162,11 @@ public class RepackageTask extends DefaultTask {
 	 */
 	private class RepackageAction implements Action<Jar> {
 
-		private final SpringBootPluginExtension extension;
+		private final BootPluginExtension extension;
 
 		private final ProjectLibraries libraries;
 
-		RepackageAction(SpringBootPluginExtension extension, ProjectLibraries libraries) {
+		RepackageAction(BootPluginExtension extension, ProjectLibraries libraries) {
 			this.extension = extension;
 			this.libraries = libraries;
 		}
@@ -322,7 +320,7 @@ public class RepackageTask extends DefaultTask {
 				if (duration > FIND_WARNING_TIMEOUT) {
 					getLogger().warn("Searching for the main-class is taking "
 							+ "some time, consider using setting "
-							+ "'springBoot.mainClass'");
+							+ "'boot.mainClass'");
 				}
 			}
 		}

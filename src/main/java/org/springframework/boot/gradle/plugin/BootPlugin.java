@@ -26,37 +26,37 @@ import org.gradle.util.GradleVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.boot.gradle.SpringBootPluginExtension;
-//import org.springframework.boot.gradle.agent.AgentPluginFeatures;
-//import org.springframework.boot.gradle.dependencymanagement.DependencyManagementPluginFeatures;
+import org.springframework.boot.gradle.BootPluginExtension;
 import org.springframework.boot.gradle.repackage.RepackagePluginFeatures;
-//import org.springframework.boot.gradle.run.RunPluginFeatures;
 
 /**
+ * Rob Bygrave: Renamed and modified from SpringBootPlugin.
+ *
+ * This is a 'cut down' version of the Spring boot plugin solely focused on repackaging
+ * a project as a runnable jar or war.
+ *
+ * ----
+ *
  * Gradle 'Spring Boot' {@link Plugin}.
  *
  * @author Phillip Webb
  * @author Dave Syer
  * @author Andy Wilkinson
  */
-public class SpringBootPlugin implements Plugin<Project> {
+public class BootPlugin implements Plugin<Project> {
 
-	private static final Logger logger = LoggerFactory.getLogger(SpringBootPlugin.class);
+	private static final Logger logger = LoggerFactory.getLogger(BootPlugin.class);
 
 	@Override
 	public void apply(Project project) {
 		if (GradleVersion.current().compareTo(GradleVersion.version("2.8")) < 0) {
-			logger.warn("Spring Boot plugin's support for Gradle "
+			logger.warn("Boot plugin's support for Gradle "
 					+ GradleVersion.current().getVersion()
 					+ " is deprecated. Please upgrade to Gradle 2.8 or later.");
 		}
-		project.getExtensions().create("springBoot", SpringBootPluginExtension.class,
-				project);
+		project.getExtensions().create("boot", BootPluginExtension.class, project);
 		project.getPlugins().apply(JavaPlugin.class);
-//		new AgentPluginFeatures().apply(project);
 		new RepackagePluginFeatures().apply(project);
-//		new RunPluginFeatures().apply(project);
-//		new DependencyManagementPluginFeatures().apply(project);
 		project.getTasks().withType(JavaCompile.class).all(new SetUtf8EncodingAction());
 	}
 
