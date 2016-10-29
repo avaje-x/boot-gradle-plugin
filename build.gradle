@@ -1,5 +1,17 @@
-group 'org.avaje.incubation'
-version '0.1.3'
+group 'org.avaje.boot'
+version '0.1.1'
+
+// First, apply the publishing plugin
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
+    }
+}
 
 ext {
     projectName = 'Runnable war/jar plugin using Spring boot loader'
@@ -10,6 +22,7 @@ ext {
 
 apply plugin: 'groovy'
 apply from: "${gradle_common}/oss.gradle"
+apply plugin: "com.gradle.plugin-publish"
 
 repositories {
     mavenCentral()
@@ -21,3 +34,18 @@ dependencies {
     compile localGroovy()
 }
 
+// The configuration example below shows the minimum required properties
+// configured to publish your plugin to the plugin portal
+pluginBundle {
+    website = 'https://github.com/avaje-x/boot-gradle-plugin'
+    vcsUrl = 'https://github.com/avaje-x/boot-gradle-plugin.git'
+    description = 'Builds runnable Jars/Wars using spring-boot-loader-tools'
+    tags = ['boot']
+
+    plugins {
+        bootPlugin {
+            id = 'org.avaje.boot'
+            displayName = 'Boot plugin'
+        }
+    }
+}
